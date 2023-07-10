@@ -23,11 +23,3 @@ public interface ProgramaRepository
         " where (p.id = :idPrograma and o.ano >= :anoIni and o.ano <= :anoFin and o.tecnicas is not empty)")
         Integer quantitatioOrientacaoTecnica(@Param("idPrograma") Integer idPrograma, @Param("anoIni") Integer anoIni, @Param("anoFin") Integer anoFin);
 }
-/*
-spring.datasource.url=jdbc:postgresql://hckvzauf:Q44izx1iP5Q4pW4dv5UGBU1lIQpKYtrE@horton.db.elephantsql.com/hckvzauf
-spring.datasource.username=hckvzauf
-spring.datasource.password=Q44izx1iP5Q4pW4dv5UGBU1lIQpKYtrE
-spring.datasource.driver-class-name=org.postgresql.Driverspring.datasource.url=jdbc:postgresql://hckvzauf:Q44izx1iP5Q4pW4dv5UGBU1lIQpKYtrE@horton.db.elephantsql.com/hckvzauf
-spring.datasource.username=hckvzauf
-spring.datasource.password=Q44izx1iP5Q4pW4dv5UGBU1lIQpKYtrE
-spring.datasource.driver-class-name=org.postgresql.Driver*/

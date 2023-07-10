@@ -12,7 +12,10 @@ import br.ufma.sppg.model.*;
 public interface DocenteRepository 
     extends JpaRepository<Docente, Integer>{
 
-    List<Docente> findByNome(String nome);
+    @Query("select d from Docente d where d.nome = :nome")
+    List<Docente> findByNomeLista(String nome);
+
+    Docente findByNome(String nome);
     
     Optional<Docente> findById(Integer idDocente);
 
