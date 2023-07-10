@@ -98,7 +98,7 @@ public class QualisController {
     }
 
     // PASSA O ANO
-    @GetMapping(value = "/{idProg}/{tipo}/filter")
+    @GetMapping(value = "/{idProg}/{tipo}/{anoIni}/{anoFim}")
     public ResponseEntity obterQualisPorTipo(@PathVariable Integer idProg, @PathVariable String tipo,
             @RequestParam Integer anoIni, @RequestParam Integer anoFim) {
 

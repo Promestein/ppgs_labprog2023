@@ -82,6 +82,10 @@ public class ProducaoService {
 
     };
 
+    public List<Producao> retornarTodasAsProducoes(){
+        return prodRepo.findTudo(); 
+    }
+
     public List<Producao>obterProducoesDocente(Integer idDocente, Integer data1, Integer data2){
 
         //É Presumido que o usuário coloque em data1 o valor mais baixo e em data2 o valor mais alto como por exemplo
