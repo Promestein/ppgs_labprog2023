@@ -150,6 +150,7 @@ public class ProgramaService {
 
         return producoes;
     }
+    
 
     // devolve uma List<Tecnica> de um dado programa dentro de um periodo
     public List<Tecnica> obterTecnicas(Integer idPrograma, Integer anoIni, Integer anoFin) {

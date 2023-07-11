@@ -1,12 +1,15 @@
 package br.ufma.sppg.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +25,9 @@ import br.ufma.sppg.service.ProgramaService;
 import br.ufma.sppg.service.exceptions.ServicoRuntimeException;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping(value = "/api/v1/qualis")
+@EnableCaching
 public class QualisController {
 
     @Autowired
@@ -83,9 +88,11 @@ public class QualisController {
             List<Producao> prodFiltro = new ArrayList<Producao>();
             for (Producao prod : producoes) {
 
-                if (prod.getQualis().equals(tipo)) {
-                    summary.setQtd(summary.getQtd() + 1);
-                    prodFiltro.add(prod);
+                if (prod.getQualis() != null) {
+                    if (prod.getTipo().equals(tipo)) {
+                        summary.setQtd(summary.getQtd() + 1);
+                        prodFiltro.add(prod);
+                    }
                 }
             }
 
@@ -100,27 +107,40 @@ public class QualisController {
     // PASSA O ANO
     @GetMapping(value = "/{idProg}/{tipo}/{anoIni}/{anoFim}")
     public ResponseEntity obterQualisPorTipo(@PathVariable Integer idProg, @PathVariable String tipo,
-            @RequestParam Integer anoIni, @RequestParam Integer anoFim) {
+            @PathVariable Integer anoIni, @PathVariable Integer anoFim) {
 
         QualisSummaryDTO summary = QualisSummaryDTO.builder().qtd(0).build();
 
         try {
             List<Producao> producoes = service.obterProducoes(idProg, anoIni, anoFim);
             List<Producao> prodFiltro = new ArrayList<Producao>();
+            List<List<Integer>> qualis = new ArrayList<List<Integer>>();
+            for (int i = 0;i<4;i++){
+                qualis.add(new ArrayList<Integer>(Collections.nCopies(anoFim-anoIni+1, 0)));
+            }
             for (Producao prod : producoes) {
-
-                if (prod.getQualis().equals(tipo)) {
-                    summary.setQtd(summary.getQtd() + 1);
-                    prodFiltro.add(prod);
+                if (prod.getAno()>=anoIni && prod.getAno()<=anoFim){
+                    if (prod.getTipo()!=null){
+                        if(prod.getTipo().equals(tipo)){
+                            if (prod.getQualis() != null) {
+                                if(prod.getQualis().equals("A1")){
+                                    qualis.get(0).set(anoFim-prod.getAno(), qualis.get(0).get(anoFim-prod.getAno())+1);
+                                }else if(prod.getQualis().equals("A2")){
+                                    qualis.get(1).set(anoFim-prod.getAno(), qualis.get(1).get(anoFim-prod.getAno())+1);
+                                }else if(prod.getQualis().equals("A3")){
+                                    qualis.get(2).set(anoFim-prod.getAno(), qualis.get(2).get(anoFim-prod.getAno())+1);
+                                }else if(prod.getQualis().equals("A4")){
+                                    qualis.get(3).set(anoFim-prod.getAno(), qualis.get(3).get(anoFim-prod.getAno())+1);
+                                }
+                            }
+                        }
+                    }   
                 }
             }
-
-            summary.setProds(prodFiltro);
+            return ResponseEntity.ok(qualis);
         } catch (ServicoRuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-
-        return new ResponseEntity<QualisSummaryDTO>(summary, HttpStatus.OK);
     }
 
     // PASSA O ANO
