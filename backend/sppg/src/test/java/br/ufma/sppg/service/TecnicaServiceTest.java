@@ -110,9 +110,9 @@ public class TecnicaServiceTest {
         Integer anoFim = 2023;
 
         // Obtendo as técnicas por período
-        Optional<List<Tecnica>> tecnicasOptional = tecnicaService.obterTecnicasDocentePorPeriodo(docenteTeste.getId(),
+        List<Tecnica> tecnicasOptional = tecnicaService.obterTecnicasDocentePorPeriodo(docenteTeste.getId(),
                 anoInicio, anoFim);
-        List<Tecnica> tecnicasBanco = tecnicasOptional.get();
+        List<Tecnica> tecnicasBanco = (List<Tecnica>) tecnicasOptional.get(anoFim);
 
         // Verificação
         Assertions.assertNotNull(tecnicasBanco);
@@ -234,17 +234,17 @@ public class TecnicaServiceTest {
 
         // Ação
 
-        Optional<List<Tecnica>> tecnicasOptional = tecnicaService.obterTecnicasDocentePorPeriodo(docenteSalvo.getId(),
+        List<Tecnica> tecnicasOptional = tecnicaService.obterTecnicasDocentePorPeriodo(docenteSalvo.getId(),
                 anoInicio, anoFim);
-        List<Tecnica> tecnicasBanco = tecnicasOptional.get();
+        List<Tecnica> tecnicasBanco =  (List<Tecnica>) tecnicasOptional.get(anoFim);
 
-        Optional<List<Tecnica>> tecnicasOptional2 = tecnicaService.obterTecnicasDocentePorPeriodo(docenteSalvo.getId(),
+        List<Tecnica> tecnicasOptional2 = tecnicaService.obterTecnicasDocentePorPeriodo(docenteSalvo.getId(),
                 anoInicio, 2022);
-        List<Tecnica> tecnicasBanco2 = tecnicasOptional2.get();
+        List<Tecnica> tecnicasBanco2 =  (List<Tecnica>) tecnicasOptional2.get(anoFim);
 
-        Optional<List<Tecnica>> tecnicasOptional3 = tecnicaService.obterTecnicasDocentePorPeriodo(docenteSalvo.getId(),
+        List<Tecnica> tecnicasOptional3 = tecnicaService.obterTecnicasDocentePorPeriodo(docenteSalvo.getId(),
                 2023, 2023);
-        List<Tecnica> tecnicasBanco3 = tecnicasOptional3.get();
+        List<Tecnica> tecnicasBanco3 = (List<Tecnica>) tecnicasOptional3.get(anoFim);
 
         Tecnica tecnicaAux = tecnicaRepository.findById(tecnicaSalva.getId()).get();
 

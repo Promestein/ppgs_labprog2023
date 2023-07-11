@@ -56,7 +56,7 @@ public class TecnicaService {
     }
 
     public List<Tecnica> obterTodasTecnicas() {
-        return tecnicaRepo.findAll();
+        return tecnicaRepo.findTudo();
     }
 
     public List<Tecnica> obterTecnicasComFiltro(Tecnica filtro) {
