@@ -189,10 +189,18 @@ public class ProducaoService {
             throw new ServicoRuntimeException("Deve ser informado uma quantia real de Doutorandos da Produção");
     }
 
-    @Transactional
-    public Producao informarEstatisticasProducao(Producao producao){
-        verificarProducao(producao);
-        return prodRepo.save(producao);
+    public Producao informarEstatisticasProducao(Integer producao, Integer grand, Integer mestrado, Integer doutorado) {
+        Optional<Producao> producaoNova = prodRepo.findById(producao);
+
+        if (producaoNova.isPresent()) {
+            Producao producaoObj = producaoNova.get();
+            producaoObj.setQtdGrad(grand);
+            producaoObj.setQtdMestrado(mestrado);
+            producaoObj.setQtdDoutorado(doutorado);
+            return prodRepo.save(producaoObj);
+        }
+    
+        throw new IllegalArgumentException("Produção não encontrada: " + producao);
     }
 
 
