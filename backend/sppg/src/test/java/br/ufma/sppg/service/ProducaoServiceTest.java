@@ -18,7 +18,7 @@ import br.ufma.sppg.repo.DocenteRepository;
 import br.ufma.sppg.repo.OrientacaoRepository;
 import br.ufma.sppg.repo.ProducaoRepository;
 import br.ufma.sppg.repo.ProgramaRepository;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 
 @SpringBootTest
 @Transactional

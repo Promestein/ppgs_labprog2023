@@ -11,7 +11,7 @@ import br.ufma.sppg.dto.Indice;
 import br.ufma.sppg.model.*;
 import br.ufma.sppg.repo.DocenteRepository;
 import br.ufma.sppg.service.exceptions.ServicoRuntimeException;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 
 @Service
 public class DocenteService {
