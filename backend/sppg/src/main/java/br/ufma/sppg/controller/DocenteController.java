@@ -51,19 +51,19 @@ public class DocenteController{
                         }else if(producao.getQualis().equals("A2")){
                             qualis.set(1, qualis.get(1) + 1);
                         }else if(producao.getQualis().equals("A3")){
-                        qualis.set(1, qualis.get(2) + 1);
+                        qualis.set(2, qualis.get(2) + 1);
                         }else if(producao.getQualis().equals("A4")){
-                            qualis.set(1, qualis.get(3) + 1);
+                            qualis.set(3, qualis.get(3) + 1);
                         }else if(producao.getQualis().equals("B1")){
-                            qualis.set(1, qualis.get(4) + 1);
+                            qualis.set(4, qualis.get(4) + 1);
                         }else if(producao.getQualis().equals("B2")){
-                            qualis.set(1, qualis.get(5) + 1);
+                            qualis.set(5, qualis.get(5) + 1);
                         }else if(producao.getQualis().equals("B3")){
-                            qualis.set(1, qualis.get(6) + 1);
+                            qualis.set(6, qualis.get(6) + 1);
                         }else if(producao.getQualis().equals("B4")){
-                            qualis.set(1, qualis.get(7) + 1);
+                            qualis.set(7, qualis.get(7) + 1);
                         }else if(producao.getQualis().equals("C")){
-                            qualis.set(1, qualis.get(8) + 1);
+                            qualis.set(8, qualis.get(8) + 1);
                         }
                     }
                 }
