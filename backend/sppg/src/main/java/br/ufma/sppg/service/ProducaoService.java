@@ -17,7 +17,7 @@ import br.ufma.sppg.repo.OrientacaoRepository;
 import br.ufma.sppg.repo.ProducaoRepository;
 import br.ufma.sppg.repo.ProgramaRepository;
 import br.ufma.sppg.service.exceptions.ServicoRuntimeException;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 
 
 /*

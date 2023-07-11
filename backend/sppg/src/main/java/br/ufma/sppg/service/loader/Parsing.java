@@ -5,8 +5,6 @@ import br.ufma.sppg.model.Orientacao;
 import br.ufma.sppg.model.Tecnica;
 import br.ufma.sppg.model.Producao;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
