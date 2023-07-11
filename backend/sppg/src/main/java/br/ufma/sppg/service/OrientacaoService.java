@@ -68,6 +68,14 @@ public class OrientacaoService {
         return orientacoes;
     }
 
+    public List<Orientacao> obterOrientacaoDocentePorPeriodo(Integer id, Integer anoIni, Integer anoFim) {
+        validarPeriodo(anoIni, anoFim);
+        validarOrientacoesDoc(id, anoIni, anoFim);
+        List<Orientacao> orientacoes = orientacaoRepository.findDocenetePorUmPeriododeOrientacoes(id, anoIni, anoFim);
+
+        return orientacoes;
+    }
+
     @Transactional
     public Orientacao associarOrientacaoProducao(Integer idOri, Integer idProd) {
         validarOriProd(idOri, idProd);

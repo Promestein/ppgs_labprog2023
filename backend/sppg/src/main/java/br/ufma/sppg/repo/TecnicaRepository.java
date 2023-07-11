@@ -19,7 +19,7 @@ public interface TecnicaRepository extends JpaRepository<Tecnica, Integer> {
             "WHERE d.id = :idDocente " +
             "AND t.ano >= :anoInicio " +
             "AND t.ano <= :anoFim")
-    Optional<List<Tecnica>> obterTecnicasDocentePorPeriodo(Integer idDocente, Integer anoInicio, Integer anoFim);
+    List<Tecnica> obterTecnicasDocentePorPeriodo(Integer idDocente, Integer anoInicio, Integer anoFim);
 
     // Obter todas as técnicas de uma orientação em um período
     @Query("SELECT t FROM Tecnica t " +
@@ -34,7 +34,7 @@ public interface TecnicaRepository extends JpaRepository<Tecnica, Integer> {
             "JOIN Docente d " +
             "JOIN Programa p " +
             "WHERE p.id = :idPrograma")
-    Optional<List<Tecnica>> obterTecnicasPPG(Integer idPrograma);
+    List<Tecnica> obterTecnicasPPG(Integer idPrograma);
 
     @Query("SELECT t FROM Tecnica t " +
             "JOIN Docente d " +

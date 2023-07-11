@@ -34,7 +34,7 @@ public class DocenteController{
     OrientacaoService orientacaoServivce;
 
     @GetMapping("/obter_producoes/{data1}/{data2}")
-    public ResponseEntity<?> obterProducoesDeDocente(@PathVariable(value = "data1", required = true)  Integer data1,
+    public ResponseEntity<?> obterProducoesDeDocenteContadas(@PathVariable(value = "data1", required = true)  Integer data1,
     @PathVariable(value = "data2", required = true)  Integer data2){
 
         try{
@@ -76,24 +76,39 @@ public class DocenteController{
         }
     }
 
-    @GetMapping("/obter_orientacoes/{id}")
-    public ResponseEntity<?> obterOrientacoesDeDocente(@PathVariable(value = "id", required = true) Integer idDocente,
+    @GetMapping("/obter_producoes/{id}/{data1}/{data2}")
+    public ResponseEntity<?> obterProducoesDeDocente(@PathVariable(value = "id", required = true) Integer idDocente,
     @PathVariable(value = "data1", required = true)  Integer data1,
     @PathVariable(value = "data2", required = true)  Integer data2){
 
         try{
-            List<Orientacao> orientacaoDocente = orientacaoServivce.obterOrientacaoDocente(idDocente, data1, data2);
+            List<Producao> orientacaoDocente = producaoServivce.obterProducoesDocente(idDocente, data1, data2);
             return ResponseEntity.ok(orientacaoDocente);
         }catch (ServicoRuntimeException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    @GetMapping("/obter_tecnicas/{id}")
-    public ResponseEntity<?> obterTecnicasDeDocente(@PathVariable(value = "id", required = true) Integer idDocente){
+
+    @GetMapping("/obter_orientacoes/{id}/{data1}/{data2}")
+    public ResponseEntity<?> obterOrientacoesDeDocente(@PathVariable(value = "id", required = true) Integer idDocente,
+    @PathVariable(value = "data1", required = true)  Integer data1,
+    @PathVariable(value = "data2", required = true)  Integer data2){
 
         try{
-            List<Tecnica> tecnicaDocente = tecnicaServivce.obterTecnicasDocente(idDocente); 
+            List<Orientacao> orientacaoDocente = orientacaoServivce.obterOrientacaoDocentePorPeriodo(idDocente, data1, data2);
+            return ResponseEntity.ok(orientacaoDocente);
+        }catch (ServicoRuntimeException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/obter_tecnicas/{id}/{data1}/{data2}")
+    public ResponseEntity<?> obterTecnicasDeDocente(@PathVariable(value = "id", required = true) Integer idDocente,@PathVariable(value = "data1", required = true)  Integer data1,
+    @PathVariable(value = "data2", required = true)  Integer data2){
+
+        try{
+            List<Tecnica> tecnicaDocente = tecnicaServivce.obterTecnicasDocentePorPeriodo(idDocente,data1,data2); 
             return ResponseEntity.ok(tecnicaDocente);
         }catch (ServicoRuntimeException e){
             return ResponseEntity.badRequest().body(e.getMessage());
