@@ -21,6 +21,7 @@ import br.ufma.sppg.dto.IndiceQualisDTO;
 import br.ufma.sppg.dto.QualisStatsDTO;
 import br.ufma.sppg.dto.QualisSummaryDTO;
 import br.ufma.sppg.model.Producao;
+import br.ufma.sppg.service.ProducaoService;
 import br.ufma.sppg.service.ProgramaService;
 import br.ufma.sppg.service.exceptions.ServicoRuntimeException;
 
@@ -32,6 +33,9 @@ public class QualisController {
 
     @Autowired
     ProgramaService service;
+
+    @Autowired
+    ProducaoService serviceProd;
 
     // NÃO PASSA O ANO
     /*
@@ -122,6 +126,82 @@ public class QualisController {
                 if (prod.getAno()>=anoIni && prod.getAno()<=anoFim){
                     if (prod.getTipo()!=null){
                         if(prod.getTipo().equals(tipo)){
+                            if (prod.getQualis() != null) {
+                                if(prod.getQualis().equals("A1")){
+                                    qualis.get(0).set(anoFim-prod.getAno(), qualis.get(0).get(anoFim-prod.getAno())+1);
+                                }else if(prod.getQualis().equals("A2")){
+                                    qualis.get(1).set(anoFim-prod.getAno(), qualis.get(1).get(anoFim-prod.getAno())+1);
+                                }else if(prod.getQualis().equals("A3")){
+                                    qualis.get(2).set(anoFim-prod.getAno(), qualis.get(2).get(anoFim-prod.getAno())+1);
+                                }else if(prod.getQualis().equals("A4")){
+                                    qualis.get(3).set(anoFim-prod.getAno(), qualis.get(3).get(anoFim-prod.getAno())+1);
+                                }
+                            }
+                        }
+                    }   
+                }
+            }
+            return ResponseEntity.ok(qualis);
+        } catch (ServicoRuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping(value = "periodicos/{idDocente}/{anoIni}/{anoFim}")
+    public ResponseEntity obterQualisPorTipoPeriodicos(@PathVariable Integer idDocente,
+            @PathVariable Integer anoIni, @PathVariable Integer anoFim) {
+
+        QualisSummaryDTO summary = QualisSummaryDTO.builder().qtd(0).build();
+
+        try {
+            List<Producao> producoes = serviceProd.obterProducoesDocente(idDocente, anoIni, anoFim);
+            List<Producao> prodFiltro = new ArrayList<Producao>();
+            List<List<Integer>> qualis = new ArrayList<List<Integer>>();
+            for (int i = 0;i<4;i++){
+                qualis.add(new ArrayList<Integer>(Collections.nCopies(anoFim-anoIni+1, 0)));
+            }
+            for (Producao prod : producoes) {
+                if (prod.getAno()>=anoIni && prod.getAno()<=anoFim){
+                    if (prod.getTipo()!=null){
+                        if(prod.getTipo().equals("ARTIGO-PUBLICADO")){
+                            if (prod.getQualis() != null) {
+                                if(prod.getQualis().equals("A1")){
+                                    qualis.get(0).set(anoFim-prod.getAno(), qualis.get(0).get(anoFim-prod.getAno())+1);
+                                }else if(prod.getQualis().equals("A2")){
+                                    qualis.get(1).set(anoFim-prod.getAno(), qualis.get(1).get(anoFim-prod.getAno())+1);
+                                }else if(prod.getQualis().equals("A3")){
+                                    qualis.get(2).set(anoFim-prod.getAno(), qualis.get(2).get(anoFim-prod.getAno())+1);
+                                }else if(prod.getQualis().equals("A4")){
+                                    qualis.get(3).set(anoFim-prod.getAno(), qualis.get(3).get(anoFim-prod.getAno())+1);
+                                }
+                            }
+                        }
+                    }   
+                }
+            }
+            return ResponseEntity.ok(qualis);
+        } catch (ServicoRuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping(value = "congressos/{idDocente}/{anoIni}/{anoFim}")
+    public ResponseEntity obterQualisPorTipoCongressos(@PathVariable Integer idDocente,
+            @PathVariable Integer anoIni, @PathVariable Integer anoFim) {
+
+        QualisSummaryDTO summary = QualisSummaryDTO.builder().qtd(0).build();
+
+        try {
+            List<Producao> producoes = serviceProd.obterProducoesDocente(idDocente, anoIni, anoFim);
+            List<Producao> prodFiltro = new ArrayList<Producao>();
+            List<List<Integer>> qualis = new ArrayList<List<Integer>>();
+            for (int i = 0;i<4;i++){
+                qualis.add(new ArrayList<Integer>(Collections.nCopies(anoFim-anoIni+1, 0)));
+            }
+            for (Producao prod : producoes) {
+                if (prod.getAno()>=anoIni && prod.getAno()<=anoFim){
+                    if (prod.getTipo()!=null){
+                        if(prod.getTipo().equals("TRABALHO-EM-EVENTOS")){
                             if (prod.getQualis() != null) {
                                 if(prod.getQualis().equals("A1")){
                                     qualis.get(0).set(anoFim-prod.getAno(), qualis.get(0).get(anoFim-prod.getAno())+1);
