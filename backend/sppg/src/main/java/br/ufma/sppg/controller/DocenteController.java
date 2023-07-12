@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.ufma.sppg.dto.DocenteProducao;
+import br.ufma.sppg.model.Docente;
 import br.ufma.sppg.model.Orientacao;
 import br.ufma.sppg.model.Producao;
 import br.ufma.sppg.model.Tecnica;
+import br.ufma.sppg.repo.DocenteRepository;
 import br.ufma.sppg.service.OrientacaoService;
 import br.ufma.sppg.service.ProducaoService;
 import br.ufma.sppg.service.TecnicaService;
@@ -34,6 +36,9 @@ public class DocenteController{
 
     @Autowired
     OrientacaoService orientacaoServivce;
+
+    @Autowired
+    DocenteRepository docenteRepository;
 
     @GetMapping("/obter_producoes/{data1}/{data2}")
     public ResponseEntity<?> obterProducoesDeDocenteContadas(@PathVariable(value = "data1", required = true)  Integer data1,
@@ -112,6 +117,16 @@ public class DocenteController{
         try{
             List<Tecnica> tecnicaDocente = tecnicaServivce.obterTecnicasDocentePorPeriodo(idDocente,data1,data2); 
             return ResponseEntity.ok(tecnicaDocente);
+        }catch (ServicoRuntimeException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/obter_docentes")
+    public ResponseEntity<?> obterDocentes(){
+        try{
+            List<Docente> docentes = docenteRepository.findAll();
+            return ResponseEntity.ok(docentes);
         }catch (ServicoRuntimeException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }

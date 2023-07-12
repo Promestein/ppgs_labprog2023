@@ -15,8 +15,8 @@ public interface DocenteRepository
     @Query("select d from Docente d where d.nome = :nome")
     List<Docente> findByNomeLista(String nome);
 
-    @Query("select d from Docente d")
-    List<Docente> findAll();
+    // @Query("select d from Docente d")
+    // List<Docente> findAll();
 
     Docente findByNome(String nome);
     

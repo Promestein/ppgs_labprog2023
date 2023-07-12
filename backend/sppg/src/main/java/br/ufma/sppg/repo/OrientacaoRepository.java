@@ -44,6 +44,6 @@ public interface OrientacaoRepository extends JpaRepository<Orientacao, Integer>
 
         Orientacao findByTipoAndDiscenteAndTitulo(String tipo, String discente, String titulo);
 
-        @Query("Select o from Orientacao o join Docente d where d.id = :idDocente AND o.ano >= :anoInicio AND o.ano <= :anoFim")
+        @Query("Select o from Orientacao o join Docente d on d.id = o.orientador where d.id = :idDocente AND o.ano >= :anoInicio AND o.ano <= :anoFim")
         List<Orientacao> findDocenetePorUmPeriododeOrientacoes(Integer idDocente, Integer anoInicio, Integer anoFim);
 }

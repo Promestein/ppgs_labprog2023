@@ -121,6 +121,11 @@ public class ProducaoService {
         throw new ServicoRuntimeException("Docente Inexistente");
     }
 
+    public List<Producao> obterProducoesParaUmDocente(Docente docente){
+
+        return prodRepo.findByDocentes(docente);
+    }
+
     public List<DocenteProducao>obterProducoesTodosDocentes(Integer data1, Integer data2){
 
         //É Presumido que o usuário coloque em data1 o valor mais baixo e em data2 o valor mais alto como por exemplo
