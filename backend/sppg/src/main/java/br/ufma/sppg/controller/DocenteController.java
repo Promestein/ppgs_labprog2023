@@ -28,8 +28,8 @@ import br.ufma.sppg.service.exceptions.ServicoRuntimeException;
 
 
 @RequestMapping("/api/docente")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class DocenteController{
     @Autowired
     TecnicaService tecnicaServivce;
@@ -41,7 +41,7 @@ public class DocenteController{
     OrientacaoService orientacaoServivce;
 
     @GetMapping("/obter_producoes/{data1}/{data2}")
-    public ResponseEntity<?> obterProducoesDeDocente(@PathVariable(value = "data1", required = true)  Integer data1,
+    public ResponseEntity<?> obterProducoesDeDocenteContadas(@PathVariable(value = "data1", required = true)  Integer data1,
     @PathVariable(value = "data2", required = true)  Integer data2){
 
         
@@ -58,19 +58,19 @@ public class DocenteController{
                         }else if(producao.getQualis().equals("A2")){
                             qualis.set(1, qualis.get(1) + 1);
                         }else if(producao.getQualis().equals("A3")){
-                        qualis.set(1, qualis.get(2) + 1);
+                        qualis.set(2, qualis.get(2) + 1);
                         }else if(producao.getQualis().equals("A4")){
-                            qualis.set(1, qualis.get(3) + 1);
+                            qualis.set(3, qualis.get(3) + 1);
                         }else if(producao.getQualis().equals("B1")){
-                            qualis.set(1, qualis.get(4) + 1);
+                            qualis.set(4, qualis.get(4) + 1);
                         }else if(producao.getQualis().equals("B2")){
-                            qualis.set(1, qualis.get(5) + 1);
+                            qualis.set(5, qualis.get(5) + 1);
                         }else if(producao.getQualis().equals("B3")){
-                            qualis.set(1, qualis.get(6) + 1);
+                            qualis.set(6, qualis.get(6) + 1);
                         }else if(producao.getQualis().equals("B4")){
-                            qualis.set(1, qualis.get(7) + 1);
+                            qualis.set(7, qualis.get(7) + 1);
                         }else if(producao.getQualis().equals("C")){
-                            qualis.set(1, qualis.get(8) + 1);
+                            qualis.set(8, qualis.get(8) + 1);
                         }
                     }
                 }
@@ -85,24 +85,39 @@ public class DocenteController{
         }
     }
 
-    @GetMapping("/obter_orientacoes/{id}")
-    public ResponseEntity<?> obterOrientacoesDeDocente(@PathVariable(value = "id", required = true) Integer idDocente,
+    @GetMapping("/obter_producoes/{id}/{data1}/{data2}")
+    public ResponseEntity<?> obterProducoesDeDocente(@PathVariable(value = "id", required = true) Integer idDocente,
     @PathVariable(value = "data1", required = true)  Integer data1,
     @PathVariable(value = "data2", required = true)  Integer data2){
 
         try{
-            List<Orientacao> orientacaoDocente = orientacaoServivce.obterOrientacaoDocente(idDocente, data1, data2);
+            List<Producao> orientacaoDocente = producaoServivce.obterProducoesDocente(idDocente, data1, data2);
             return ResponseEntity.ok(orientacaoDocente);
         }catch (ServicoRuntimeException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    @GetMapping("/obter_tecnicas/{id}")
-    public ResponseEntity<?> obterTecnicasDeDocente(@PathVariable(value = "id", required = true) Integer idDocente){
+
+    @GetMapping("/obter_orientacoes/{id}/{data1}/{data2}")
+    public ResponseEntity<?> obterOrientacoesDeDocente(@PathVariable(value = "id", required = true) Integer idDocente,
+    @PathVariable(value = "data1", required = true)  Integer data1,
+    @PathVariable(value = "data2", required = true)  Integer data2){
 
         try{
-            List<Tecnica> tecnicaDocente = tecnicaServivce.obterTecnicasDocente(idDocente); 
+            List<Orientacao> orientacaoDocente = orientacaoServivce.obterOrientacaoDocentePorPeriodo(idDocente, data1, data2);
+            return ResponseEntity.ok(orientacaoDocente);
+        }catch (ServicoRuntimeException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/obter_tecnicas/{id}/{data1}/{data2}")
+    public ResponseEntity<?> obterTecnicasDeDocente(@PathVariable(value = "id", required = true) Integer idDocente,@PathVariable(value = "data1", required = true)  Integer data1,
+    @PathVariable(value = "data2", required = true)  Integer data2){
+
+        try{
+            List<Tecnica> tecnicaDocente = tecnicaServivce.obterTecnicasDocentePorPeriodo(idDocente,data1,data2); 
             return ResponseEntity.ok(tecnicaDocente);
         }catch (ServicoRuntimeException e){
             return ResponseEntity.badRequest().body(e.getMessage());

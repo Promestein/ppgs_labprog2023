@@ -56,7 +56,7 @@ public class TecnicaService {
     }
 
     public List<Tecnica> obterTodasTecnicas() {
-        return tecnicaRepo.findAll();
+        return tecnicaRepo.findTudo();
     }
 
     public List<Tecnica> obterTecnicasComFiltro(Tecnica filtro) {
@@ -185,7 +185,7 @@ public class TecnicaService {
     }
 
     // Retorna todas as técnicas de um docente em um período
-    public Optional<List<Tecnica>> obterTecnicasDocentePorPeriodo(Integer idDocente, Integer anoInicio,
+    public List<Tecnica> obterTecnicasDocentePorPeriodo(Integer idDocente, Integer anoInicio,
             Integer anoFim) {
         
         Optional<Docente> docente = docenteRepo.findById(idDocente);
@@ -209,7 +209,7 @@ public class TecnicaService {
     }
 
     // Retorna todas as técnicas de um programa
-    public Optional<List<Tecnica>> obterTecnicasPPG(Integer idPrograma) {
+    public List<Tecnica> obterTecnicasPPG(Integer idPrograma) {
 
         Optional<Programa> programa = programaRepo.findById(idPrograma);
 

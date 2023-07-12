@@ -68,6 +68,14 @@ public class OrientacaoService {
         return orientacoes;
     }
 
+    public List<Orientacao> obterOrientacaoDocentePorPeriodo(Integer id, Integer anoIni, Integer anoFim) {
+        validarPeriodo(anoIni, anoFim);
+        validarOrientacoesDoc(id, anoIni, anoFim);
+        List<Orientacao> orientacoes = orientacaoRepository.findDocenetePorUmPeriododeOrientacoes(id, anoIni, anoFim);
+
+        return orientacoes;
+    }
+
     @Transactional
     public Orientacao associarOrientacaoProducao(Integer idOri, Integer idProd) {
         validarOriProd(idOri, idProd);
@@ -158,6 +166,25 @@ public class OrientacaoService {
             throw new RuntimeException("Não foram existe tecnica.");
         if (orientacao.isEmpty())
             throw new RuntimeException("Não foram existe orientação.");
+    }
+
+    public Orientacao orientacaoApartirDeUmDocenteId(Integer idDocente,Integer idOrientacao, String discente, String titulo, String curso) {
+        Optional<Orientacao> orientacaoNova = orientacaoRepository.orientacaoApartirDeUmDocenteId(idDocente,idOrientacao);
+    
+        //if (orientacaoNova.isPresent() && orientacaoNova.get().getId() != null) {
+        if (orientacaoNova.isPresent()) {
+            Orientacao orientacaoObj = orientacaoNova.get();
+            orientacaoObj.setDiscente(discente);
+            orientacaoObj.setTitulo(titulo);
+            orientacaoObj.setCurso(curso);
+            return orientacaoRepository.save(orientacaoObj);
+        } else {
+            Orientacao novaOrientacao = new Orientacao(); // Cria um novo objeto Orientacao
+            novaOrientacao.setDiscente(discente);
+            novaOrientacao.setTitulo(titulo);
+            novaOrientacao.setCurso(curso);
+            return orientacaoRepository.save(novaOrientacao); // Salva o novo objeto Orientacao
+        }
     }
 
     private void validarPeriodo(Integer anoInicio, Integer anoFim) {

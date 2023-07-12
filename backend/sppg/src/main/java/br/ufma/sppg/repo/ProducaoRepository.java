@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import br.ufma.sppg.model.Producao;
+import br.ufma.sppg.model.Programa;
 
 public interface ProducaoRepository 
     extends JpaRepository<Producao,Integer> {
@@ -15,4 +16,7 @@ public interface ProducaoRepository
 
         @Query("Select d from Producao d")
         List<Producao> findTudo();
+
+        @Query("Select p from Producao p where p.id=:id")
+        Producao acharPeloId(Integer id);
 }
