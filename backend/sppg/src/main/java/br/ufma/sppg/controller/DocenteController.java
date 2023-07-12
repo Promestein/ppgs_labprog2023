@@ -6,10 +6,16 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 import br.ufma.sppg.dto.DocenteProducao;
 import br.ufma.sppg.model.Orientacao;
@@ -22,6 +28,7 @@ import br.ufma.sppg.service.exceptions.ServicoRuntimeException;
 
 
 @RequestMapping("/api/docente")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class DocenteController{
     @Autowired
@@ -36,6 +43,8 @@ public class DocenteController{
     @GetMapping("/obter_producoes/{data1}/{data2}")
     public ResponseEntity<?> obterProducoesDeDocente(@PathVariable(value = "data1", required = true)  Integer data1,
     @PathVariable(value = "data2", required = true)  Integer data2){
+
+        
 
         try{
             List<DocenteProducao> producaoDocente = producaoServivce.obterProducoesTodosDocentes(data1, data2);
