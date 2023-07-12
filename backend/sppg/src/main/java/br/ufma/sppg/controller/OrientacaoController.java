@@ -63,18 +63,26 @@ public class OrientacaoController {
     }
   }
 
-  @PostMapping("/definirOrientacao/{idDocente}/{idOrientacao}/{discente}/{titulo}/{curso}")
-  public ResponseEntity<?> definirOrientacoesDocente(
-      @PathVariable(value = "idDocente", required = true) Integer idDocente,
-      @PathVariable(value = "idOrientacao", required = true) Integer idOrientacao,
-      @PathVariable(value = "discente", required = true) String discente,
-      @PathVariable(value = "titulo", required = true) String titulo,
-      @PathVariable(value = "curso", required = true) String curso) {
+  @GetMapping("/obterDiscentesDocente/{idDocente}")
+  public ResponseEntity<?> obterDiscentesDocente(
+      @PathVariable(value = "idDocente", required = true) Integer idDocente) {
     try {
-      Orientacao orientacoes = orientacaoService.orientacaoApartirDeUmDocenteId(idDocente,idOrientacao, discente, titulo, curso);
+      List<String> orientacoes = orientacaoService.discenteApartirDeUmDocenteId(idDocente);
       return ResponseEntity.ok(orientacoes);
     } catch (ServicoRuntimeException e) {
       return ResponseEntity.badRequest().body(e.getMessage());
     }
   }
+
+  @PostMapping("/gerarOrientacoesComProducao/{discente}")
+  public ResponseEntity<?> gerarOrientacoesComProducao(
+      @PathVariable(value = "discente", required = true) String discente) {
+    try {
+      List<Orientacao> orientacoes = orientacaoService.orientacaoApartirDeUmDocenteId(discente);
+      return ResponseEntity.ok(orientacoes);
+    } catch (ServicoRuntimeException e) {
+      return ResponseEntity.badRequest().body(e.getMessage());
+    }
+  }
+
 }
