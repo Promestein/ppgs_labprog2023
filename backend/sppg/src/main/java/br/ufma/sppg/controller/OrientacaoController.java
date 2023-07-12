@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,6 +22,7 @@ import br.ufma.sppg.service.TecnicaService;
 import br.ufma.sppg.service.exceptions.ServicoRuntimeException;
 
 @RestController
+@RequestMapping("/api/orientacao")
 public class OrientacaoController {
 
   @Autowired
@@ -54,6 +58,21 @@ public class OrientacaoController {
       return new ResponseEntity<>(
           orientacoes.get(),
           HttpStatus.OK);
+    } catch (ServicoRuntimeException e) {
+      return ResponseEntity.badRequest().body(e.getMessage());
+    }
+  }
+
+  @PostMapping("/definirOrientacao/{idDocente}/{idOrientacao}/{discente}/{titulo}/{curso}")
+  public ResponseEntity<?> definirOrientacoesDocente(
+      @PathVariable(value = "idDocente", required = true) Integer idDocente,
+      @PathVariable(value = "idOrientacao", required = true) Integer idOrientacao,
+      @PathVariable(value = "discente", required = true) String discente,
+      @PathVariable(value = "titulo", required = true) String titulo,
+      @PathVariable(value = "curso", required = true) String curso) {
+    try {
+      Orientacao orientacoes = orientacaoService.orientacaoApartirDeUmDocenteId(idDocente,idOrientacao, discente, titulo, curso);
+      return ResponseEntity.ok(orientacoes);
     } catch (ServicoRuntimeException e) {
       return ResponseEntity.badRequest().body(e.getMessage());
     }

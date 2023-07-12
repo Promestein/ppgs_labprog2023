@@ -168,6 +168,25 @@ public class OrientacaoService {
             throw new RuntimeException("Não foram existe orientação.");
     }
 
+    public Orientacao orientacaoApartirDeUmDocenteId(Integer idDocente,Integer idOrientacao, String discente, String titulo, String curso) {
+        Optional<Orientacao> orientacaoNova = orientacaoRepository.orientacaoApartirDeUmDocenteId(idDocente,idOrientacao);
+    
+        //if (orientacaoNova.isPresent() && orientacaoNova.get().getId() != null) {
+        if (orientacaoNova.isPresent()) {
+            Orientacao orientacaoObj = orientacaoNova.get();
+            orientacaoObj.setDiscente(discente);
+            orientacaoObj.setTitulo(titulo);
+            orientacaoObj.setCurso(curso);
+            return orientacaoRepository.save(orientacaoObj);
+        } else {
+            Orientacao novaOrientacao = new Orientacao(); // Cria um novo objeto Orientacao
+            novaOrientacao.setDiscente(discente);
+            novaOrientacao.setTitulo(titulo);
+            novaOrientacao.setCurso(curso);
+            return orientacaoRepository.save(novaOrientacao); // Salva o novo objeto Orientacao
+        }
+    }
+
     private void validarPeriodo(Integer anoInicio, Integer anoFim) {
         if (anoInicio > anoFim) {
             throw new ServicoRuntimeException("Ano inicial maior que ano fim.");
